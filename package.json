@@ -1,0 +1,42 @@
+{
+  "name": "quoto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec ts-node src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "2.9.3",
+    "bcryptjs": "^2.4.3",
+    "class-validator": "^0.13.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "graphql": "^15.7.1",
+    "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.7.0",
+    "passport-discord": "^0.1.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.0.2",
+    "type-graphql": "^1.1.1",
+    "typeorm": "^0.2.38",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.13",
+    "@types/graphql": "^14.5.0",
+    "@types/jsonwebtoken": "^8.5.5",
+    "@types/nodemailer": "^6.4.4",
+    "nodemon": "^2.0.14",
+    "ts-node": "^10.4.0"
+  }
+}
