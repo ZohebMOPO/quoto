@@ -21,5 +21,11 @@ export class User extends BaseEntity {
   email: string;
 
   @Column({ type: "text", nullable: true })
-  password: string; 
+  password: string;
+  
+  @Column({type: 'boolean', nullable: true})
+  confirmed: Boolean;
+
+  @Column({type: 'boolean', nullable: true})
+  confirmationCode: Boolean;
 }
