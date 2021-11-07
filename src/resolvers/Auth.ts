@@ -1,9 +1,9 @@
 import { hash } from "bcryptjs";
 import { User } from "../entities/User";
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
-import { sign } from "jsonwebtoken";
 import { sendConfirmationMail } from "../utils/confirmationUrl";
 import { isAuth } from "../isAuth";
+import { createAccessToken } from "../utils/createToken";
 
 @Resolver()
 export class RegisterResolver {
@@ -22,9 +22,6 @@ export class RegisterResolver {
   ) {
     const hashedPassword = await hash(password, 16);
 
-    const token = sign({ emailId: email }, "gyiyuijkiyiyshdkh", {
-      expiresIn: "30d"
-    });
 
     try {
       await User.insert({
@@ -32,9 +29,9 @@ export class RegisterResolver {
         lastName: lastName,
         email: email,
         password: hashedPassword,
-        confirmationCode: token,
+        confirmationCode: createAccessToken(email),
       });
-      sendConfirmationMail(firstName, email, token);
+      sendConfirmationMail(firstName, email, createAccessToken(email));
     } catch (err) {
       console.log(err);
       return false;
