@@ -22,7 +22,9 @@ export class RegisterResolver {
   ) {
     const hashedPassword = await hash(password, 16);
 
-    const token = sign({ emailId: email }, "gyiyuijkiyiyshdkh");
+    const token = sign({ emailId: email }, "gyiyuijkiyiyshdkh", {
+      expiresIn: "30d"
+    });
 
     try {
       await User.insert({
