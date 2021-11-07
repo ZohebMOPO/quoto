@@ -24,10 +24,10 @@ dotenv.config();
   app.get("/confirm/:token", async (req, res) => {
     try {
       await User.findOne({ where: { confirmationCode: req.params.token } });
+      res.json({ Yo: "It's working" });
     } catch (err) {
       console.log(err);
     }
-    res.json({"Yo": "It's working"})
   });
 
   app.listen(4000, () => {

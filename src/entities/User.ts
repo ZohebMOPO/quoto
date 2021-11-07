@@ -7,7 +7,7 @@ export class User extends BaseEntity {
   @Field(() => Int)
   @PrimaryGeneratedColumn()
   id: number;
-  
+
   @Field()
   @Column({ type: "text", nullable: true })
   firstName: string;
@@ -16,16 +16,16 @@ export class User extends BaseEntity {
   @Column({ type: "text", nullable: true })
   lastName: string;
 
-  @Field({nullable: true})
+  @Field({ nullable: true })
   @Column({ type: "text", unique: true, nullable: true })
   email: string;
 
   @Column({ type: "text", nullable: true })
   password: string;
-  
-  @Column({type: 'boolean', nullable: true})
+
+  @Column({ type: "boolean", nullable: true })
   confirmed: Boolean;
 
-  @Column({type: 'boolean', nullable: true})
-  confirmationCode: Boolean;
+  @Column({ type: "text", nullable: true })
+  confirmationCode: string;
 }

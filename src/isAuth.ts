@@ -1,15 +1,21 @@
-import { ApolloError } from "apollo-server-errors";
 import { MiddlewareFn } from "type-graphql";
+import { verify } from "jsonwebtoken";
 import { Context } from "./Context";
 
-export const isAuth: MiddlewareFn<Context> = (
-  { context },
-  next
-): Promise<any> => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (!context.req.session || !context.req.session.userId) {
-    throw new ApolloError("not authenticated");
+export const isAuth: MiddlewareFn<Context> = ({ context }, next) => {
+  const authorization = context.req.headers['authorization'];
+
+  if(!authorization){
+    throw new Error('Not authenticated');
   }
 
+  try {
+    const token = authorization.split(" ")[1];
+    const payload = verify(token, "gyiyuijkiyiyshdkh");
+    context.payload = payload as any;
+  } catch (err) {
+    console.log(err);
+    throw new Error('Not authenticated')
+  }
   return next();
 };

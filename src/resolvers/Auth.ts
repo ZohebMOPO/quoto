@@ -1,12 +1,14 @@
 import { hash } from "bcryptjs";
 import { User } from "../entities/User";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { sign } from "jsonwebtoken";
 import { sendConfirmationMail } from "../utils/confirmationUrl";
+import { isAuth } from "../isAuth";
 
 @Resolver()
 export class RegisterResolver {
   @Query(() => [User])
+  @UseMiddleware(isAuth)
   users() {
     return User.find();
   }
@@ -28,7 +30,7 @@ export class RegisterResolver {
         lastName: lastName,
         email: email,
         password: hashedPassword,
-        confirmationCode: token
+        confirmationCode: token,
       });
       sendConfirmationMail(firstName, email, token);
     } catch (err) {
