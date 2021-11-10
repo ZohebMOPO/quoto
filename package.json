@@ -12,6 +12,7 @@
   "dependencies": {
     "apollo-server-express": "2.9.3",
     "bcryptjs": "^2.4.3",
+    "canvas": "^2.8.0",
     "class-validator": "^0.13.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",

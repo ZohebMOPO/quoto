@@ -7,6 +7,7 @@ import { createConnection } from "typeorm";
 import { RegisterResolver } from "./resolvers/Auth";
 import { User } from "./entities/User";
 import { LoginResolver } from "./resolvers/Login";
+import { QuoteResolver } from "./resolvers/Quote.resolver";
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ dotenv.config();
   const app = express();
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [RegisterResolver, LoginResolver],
+      resolvers: [RegisterResolver, LoginResolver, QuoteResolver],
     }),
     context: ({ req, res }) => ({ req, res }),
   });
