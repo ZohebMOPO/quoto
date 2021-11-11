@@ -1,9 +1,11 @@
 import { createCanvas, loadImage } from "canvas";
 import { Arg, Mutation, Resolver } from "type-graphql";
+import { v2 } from "cloudinary";
+// import { QuoteEntity } from "../entities/Quote";
 
 @Resolver()
 export class QuoteResolver {
-  @Mutation(() => Boolean)
+  @Mutation(() => String)
   async quote(@Arg("quote") quote: string) {
     const canvas = createCanvas(200, 200);
     const ctx = canvas.getContext("2d");
@@ -20,18 +22,18 @@ export class QuoteResolver {
     ctx.stroke();
 
     try {
-      loadImage(
-        "https://upload.wikimedia.org/wikipedia/en/thumb/9/98/Blank_button.svg/1200px-Blank_button.svg.png"
-      ).then((image) => {
+      loadImage("./download.png").then((image) => {
         ctx.drawImage(image, 50, 0, 70, 70);
-
-        console.log('<img src="' + canvas.toDataURL() + '" />');
       });
+      const dataUri = canvas.toDataURL();
+      const result = await v2.uploader.upload(dataUri, {
+        public_id: "",
+      });
+
+      return `Uri: ${result.url}`;
     } catch (err) {
       console.log(err);
-      return false;
+      return `Err ${err.message}`;
     }
-
-    return true;
   }
 }
