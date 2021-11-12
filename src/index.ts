@@ -3,18 +3,27 @@ import dotenv from "dotenv";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import express from "express";
+import cloudinary from "cloudinary";
 import { createConnection } from "typeorm";
 import { RegisterResolver } from "./resolvers/Auth";
 import { User } from "./entities/User";
 import { LoginResolver } from "./resolvers/Login";
+import { QuoteResolver } from "./resolvers/Quote.resolver";
 
 dotenv.config();
 
 (async () => {
   const app = express();
+
+  cloudinary.v2.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+  });
+
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [RegisterResolver, LoginResolver],
+      resolvers: [RegisterResolver, LoginResolver, QuoteResolver],
     }),
     context: ({ req, res }) => ({ req, res }),
   });
