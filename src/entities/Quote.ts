@@ -1,16 +1,18 @@
 import { Field, Int, ObjectType } from "type-graphql";
-import { BaseEntity, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity("quotes")
 @ObjectType()
-@Entity()
-export class QuoteEntity extends BaseEntity{
-    @Field(() => Int)
-    @PrimaryGeneratedColumn()
-    id: number;
+export class QuoteEntity {
+  @Field(() => Int)
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Field(() => String)
-    quote: string;
+  @Field(() => String)
+  @Column("text", {nullable: true})
+  quote: string;
 
-    @Field(() => String)
-    imageUri: string;
+  @Field(() => String)
+  @Column("text", {nullable: true})
+  imageUri: string;
 }

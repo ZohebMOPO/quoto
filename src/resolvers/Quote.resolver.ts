@@ -1,7 +1,8 @@
 import { createCanvas, loadImage } from "canvas";
 import { Arg, Mutation, Resolver } from "type-graphql";
 import { v2 } from "cloudinary";
-// import { QuoteEntity } from "../entities/Quote";
+import { QuoteEntity } from "../entities/Quote";
+import { getRepository } from "typeorm";
 
 @Resolver()
 export class QuoteResolver {
@@ -20,17 +21,22 @@ export class QuoteResolver {
     ctx.lineTo(50, 102);
     ctx.lineTo(50 + text.width, 102);
     ctx.stroke();
-
+    loadImage(
+      "https://www.publicdomainpictures.net/pictures/30000/velka/plain-white-background.jpg"
+    ).then((image) => {
+      ctx.drawImage(image, 50, 0, 70, 70);
+    });
+    const dataUri = canvas.toDataURL();
+    const result = await v2.uploader.upload(dataUri, {
+      public_id: "",
+    });
     try {
-      loadImage("./download.png").then((image) => {
-        ctx.drawImage(image, 50, 0, 70, 70);
-      });
-      const dataUri = canvas.toDataURL();
-      const result = await v2.uploader.upload(dataUri, {
-        public_id: "",
-      });
+      await getRepository(QuoteEntity).insert({
+        imageUri: result.url,
+        quote: quote,
+      }); 
 
-      return `Uri: ${result.url}`;
+      return `${result.url}`;
     } catch (err) {
       console.log(err);
       return `Err ${err.message}`;
