@@ -7,6 +7,10 @@ import { createAccessToken } from "../utils/createToken";
 
 @Resolver()
 export class RegisterResolver {
+  @Query(() => String)
+  hello(){
+    return "yes";
+  }
   @Query(() => [User])
   @UseMiddleware(isAuth)
   users() {
