@@ -20,6 +20,7 @@
     "class-validator": "^0.13.1",
     "cloudinary": "^1.27.1",
     "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "graphql": "^15.7.1",
@@ -42,8 +43,12 @@
     "@babel/preset-react": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
     "@graphql-codegen/cli": "2.2.2",
+    "@graphql-codegen/typescript": "2.3.1",
+    "@graphql-codegen/typescript-operations": "2.2.0",
+    "@graphql-codegen/typescript-react-apollo": "3.2.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/cookie-parser": "^1.4.2",
+    "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
     "@types/graphql": "^14.5.0",
@@ -60,9 +65,6 @@
     "ts-node": "^10.4.0",
     "webpack": "^5.64.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.4.0",
-    "@graphql-codegen/typescript": "2.3.1",
-    "@graphql-codegen/typescript-react-apollo": "3.2.1",
-    "@graphql-codegen/typescript-operations": "2.2.0"
+    "webpack-dev-server": "^4.4.0"
   }
 }

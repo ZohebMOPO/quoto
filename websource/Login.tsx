@@ -1,49 +1,27 @@
-import { useRegisterMutation } from "./generated/graphql";
+import { useLoginMutation } from "./generated/graphql";
 import React, { useState } from "react";
 
-export const Register: React.FC = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+export const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [register] = useRegisterMutation();
+  const [login] = useLoginMutation();
 
   return (
     <form
       onSubmit={async (e) => {
         e.preventDefault();
         console.log("form submitted");
-        const response = await register({
+        const response = await login({
           variables: {
-            firstName,
-            lastName,
             email,
             password,
           },
         });
-
+        
         console.log(response);
       }}
     >
       <div>
-        <div>
-          <input
-            value={firstName}
-            placeholder="firstName"
-            onChange={(e) => {
-              setFirstName(e.target.value);
-            }}
-          />
-        </div>
-        <div>
-          <input
-            value={lastName}
-            placeholder="lastName"
-            onChange={(e) => {
-              setLastName(e.target.value);
-            }}
-          />
-        </div>
         <input
           value={email}
           placeholder="email"
@@ -62,8 +40,7 @@ export const Register: React.FC = () => {
           }}
         />
       </div>
-      <button type="submit">register</button>
+      <button type="submit">Login</button>
     </form>
   );
-}
-
+};

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import express from "express";
+import cors from 'cors';
 import cloudinary from "cloudinary";
 import { createConnection } from "typeorm";
 import { RegisterResolver } from "./resolvers/Auth";
@@ -14,6 +15,12 @@ dotenv.config();
 
 (async () => {
   const app = express();
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true
+    })
+  );
 
   cloudinary.v2.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -29,7 +36,7 @@ dotenv.config();
   });
   await createConnection();
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: false });
 
   app.get("/confirm/:token", async (req, res) => {
     try {
