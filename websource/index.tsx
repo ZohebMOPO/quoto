@@ -3,10 +3,9 @@ import { render } from "react-dom";
 import {
   ApolloClient,
   InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql,
+  ApolloProvider, 
 } from "@apollo/client";
+import { useAyyoQuery } from "./generated/graphql";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
@@ -14,20 +13,11 @@ const client = new ApolloClient({
 });
 
 function App() {
-  const hey = gql`
-    query Hey {
-      hello
-    }
-  `;
-
-  const { loading, error, data } = useQuery(hey);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :/</p>;
+  const {data} = useAyyoQuery();
 
   return (
     <div>
-      <h2>{JSON.stringify(data)} 🚀</h2>
+      <h2> {data?.hello}🚀</h2>
     </div>
   );
 }
