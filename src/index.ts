@@ -3,13 +3,15 @@ import dotenv from "dotenv";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import express from "express";
-import cors from 'cors';
+import cors from "cors";
 import cloudinary from "cloudinary";
 import { createConnection } from "typeorm";
 import { RegisterResolver } from "./resolvers/Auth";
 import { User } from "./entities/User";
 import { LoginResolver } from "./resolvers/Login";
 import { QuoteResolver } from "./resolvers/Quote.resolver";
+import { verify } from "jsonwebtoken";
+import { createAccessToken } from "./utils/createToken";
 
 dotenv.config();
 
@@ -18,9 +20,33 @@ dotenv.config();
   app.use(
     cors({
       origin: "http://localhost:3000",
-      credentials: true
+      credentials: true,
     })
   );
+
+  app.post("/refresh_token", async (req, res) => {
+    const token = req.cookies.sid;
+    if (!token) {
+      return res.send({ ok: false, accessToken: "" });
+    }
+
+    let payload: any = null;
+
+    try {
+      payload = verify(token, "hfjdfhjdh");
+    } catch (err) {
+      console.log(err);
+      return res.send({ ok: false, accessToken: "" });
+    }
+
+    const user = await User.findOne({ where: { email: payload.emailId } });
+
+    if (!user) {
+      return res.send({ ok: false, accessToken: "" });
+    }
+
+    return res.send({ ok: true, accessToken: createAccessToken(user?.email) });
+  });
 
   cloudinary.v2.config({
     cloud_name: process.env.CLOUD_NAME,
