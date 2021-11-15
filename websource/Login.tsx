@@ -1,5 +1,6 @@
 import { useLoginMutation } from "./generated/graphql";
 import React, { useState } from "react";
+import { setAccessToken } from "./accessToken";
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -17,8 +18,9 @@ export const Login: React.FC = () => {
             password,
           },
         });
-        
-        console.log(response);
+        if (response && response.data) {
+          setAccessToken(response.data.login.accessToken);
+        } 
       }}
     >
       <div>
